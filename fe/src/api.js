@@ -62,7 +62,7 @@ class JoblyApi {
     return response
   }
 
-
+//#################################
   static async Login(data){
     let response = await this.request('/authenticate', data, 'post')
     return response
