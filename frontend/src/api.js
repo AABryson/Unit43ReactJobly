@@ -36,11 +36,16 @@ class JoblyApi {
 
   // Individual API routes
   //Get list of companies
-  static async findAllCompanies(searchFilters={}) {
-    let response = await this.request('companies', searchFilters)
+  // static async findAllCompanies(searchFilters={}) {
+  //   let response = await this.request('companies', searchFilters)
+  //   return response.companies;
+  // }
+
+  //#################################need to use name since in the backend, company.js, findAll function expects 'name'
+  static async findAllCompanies(name) {
+    let response = await this.request('companies', {name})
     return response.companies;
   }
-
 
   /** Get details on a company by handle. */
 
@@ -57,15 +62,20 @@ class JoblyApi {
 
   static async signUp(data){
     //#####################to change method use 'post'
-    let response = await this.request('/register', data, 'post')
+    let response = await this.request('auth/register', data, 'post')
     console.log(response)
-    return response
+    return response.token
   }
 
 //#################################
   static async Login(data){
-    let response = await this.request('/authenticate', data, 'post')
-    return response
+    let response = await this.request('auth/token', data, 'post')
+    return response.token
+  }
+
+  static async getCurrentUser(username){
+    let response = await this.request(`users/${username}`)
+    return response.user
   }
 }
 

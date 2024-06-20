@@ -3,8 +3,9 @@ import JoblyApi from './api'
 
 function Signup () {
 //register new user; username, password, firstName, lastName, email, isAdmin
+//#################################can't use first_name or last_name
 
-    const [signupData, setSignupData] = useState({username:'', password:'', first_name:'', last_name:'', email:''})
+    const [signupData, setSignupData] = useState({username:'', password:'', firstName:'', lastName:'', email:''})
 
 
     function handleChange (e) {
@@ -16,11 +17,16 @@ function Signup () {
     }))
     }
 
-    function handleSubmit (e) {
+    async function handleSubmit (e) {
         e.preventDefault()
         //execute function that sends post request to api
-        JoblyApi.signUp(signupData)
-        setSignupData({username:'', password:'', first_name:'', last_name:'', email:''})
+        let token = await JoblyApi.signUp(signupData)
+        setSignupData({username:'', password:'', firstName:'', lastName:'', email:''})
+        console.log(token)
+        return token
+        //example of token returned:
+        {/**eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImthY3kiLCJpc0FkbWluIjpmYWxzZSwiaWF0IjoxNzE4ODQyODA0fQ.H6fZ_m5uSz_HG9FADChEEwDY61Yvz1 */}
+       
     }
 
     console.log(signupData)
@@ -37,12 +43,12 @@ function Signup () {
             <input type='text' id='password' name='password' value={signupData.password} onChange={handleChange}/>
             <br></br>
 
-            <label htmlFor='first_name'>First Name</label>
-            <input type='text' id='first_name' name='first_name' value={signupData.first_name} onChange={handleChange}/>
+            <label htmlFor='firstName'>First Name</label>
+            <input type='text' id='firstName' name='firstName' value={signupData.firstName} onChange={handleChange}/>
             <br></br>
 
-            <label htmlFor='last_name'>Last Name</label>
-            <input type='text' id='last_name' name='last_name' value={signupData.last_name} onChange={handleChange}/>
+            <label htmlFor='lastName'>Last Name</label>
+            <input type='text' id='lastName' name='lastName' value={signupData.lastName} onChange={handleChange}/>
             <br></br>
 
             <label htmlFor='email'>Email</label>

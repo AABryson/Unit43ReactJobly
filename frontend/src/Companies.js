@@ -12,6 +12,8 @@ function Companies () {
     const [companies, setCompanies] = useState([])
   
     useEffect(() => {
+        console.log('get companies - useEffect and search function')
+        searchCompanies()
         // async function getCompanies(){
         //     try {
         //         let result = await JoblyApi.findAllCompanies()
@@ -29,7 +31,7 @@ function Companies () {
         //     }
         // }
         // getCompanies()
-        searchCompanies()
+        
 
     }, [])
 

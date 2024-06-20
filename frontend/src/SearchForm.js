@@ -9,7 +9,8 @@ function SearchForm({search}) {
         e.preventDefault()
         search(term)
         console.log(term)
-        setTerm('')
+        // setTerm('')
+        
         
         
     }
