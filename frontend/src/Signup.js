@@ -1,15 +1,18 @@
 import React, {useState, useContext} from 'react'
 import JoblyApi from './api'
 import ContextObject from './ContextObject'
+import {useNavigate} from 'react-router-dom'
 
 
 function Signup () {
 //register new user; username, password, firstName, lastName, email, isAdmin
 //#################################can't use first_name or last_name
 
+
     const [signupData, setSignupData] = useState({username:'', password:'', firstName:'', lastName:'', email:''})
     //instance is not allowed to have addition property isAdmin
     //({username:'', password:'', firstName:'', lastName:'', email:'', isAdmin:true})
+    let navigate = useNavigate()
 
     const {setToken} = useContext(ContextObject)
 
@@ -30,6 +33,7 @@ function Signup () {
         setToken(token)
         setSignupData({username:'', password:'', firstName:'', lastName:'', email:''})
         console.log(token)
+        navigate('/')
 
         return token
         //example of token returned:

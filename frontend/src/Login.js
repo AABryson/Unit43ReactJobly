@@ -1,24 +1,25 @@
 import React, {useState, useContext} from 'react'
+import {useNavigate} from 'react-router-dom'
 import ContextObject from './ContextObject'
 import JoblyApi from './api'
 import {Buffer} from 'buffer'
 
 function Login () {
     const [loginData, setLoginData] = useState({username:'', password:''})
-    const {token, setToken} = useContext(ContextObject)
+    const {setToken} = useContext(ContextObject)
+    let navigate = useNavigate()
 
     async function handleSubmit(e) {
         e.preventDefault()
-        // let token = await JoblyApi.Login(loginData)
-        // setLoginData({username:'', password:''})
-        // console.log(token)
-        // return token
+        
         let token = await JoblyApi.Login(loginData)
         setLoginData({username:'', password:''})
         setToken(token)
         console.log(token)
+        navigate('/')
+
         return {success: true}
-        {/**return same token as in signup: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImthY3kiLCJpc0FkbWluIjpmYWxzZSwiaWF0IjoxNzE4ODQyOTAwfQ.MpGW5eS3dLt_1DTFHrYfTih01xFS6uATHVdHiDk4tS8 */}
+       
     }
 
     function handleChange(e) {
