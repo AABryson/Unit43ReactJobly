@@ -57,7 +57,7 @@ class User {
    **/
 
   static async register(
-      { username, password, firstName, lastName, email, isAdmin }) {
+      { username, password, firstName, lastName, email, isAdmin=true }) {
     const duplicateCheck = await db.query(
           `SELECT username
            FROM users

@@ -5,6 +5,9 @@ import { NavLink } from "react-router-dom";
 
 function NavBar() {
   const {currentUser} = useContext(ContextObject)
+  console.log('navbar is being rendered')
+  console.log('is there a currentUser?', currentUser)
+  // console.log('get currentUsers firstName', currentUser.user.firstName)
 
   return (
     <div>
@@ -18,8 +21,10 @@ function NavBar() {
               
                 {currentUser ? (
                 <>
+                  
                   <NavLink to="/profile" style={{marginRight:'10px'}}>Profile</NavLink>
                   <NavLink to='/logout' style={{marginRight:'10px'}}>Logout</NavLink>
+                  <h3>{currentUser.firstName}</h3>
                 </>
                   ) : (
                     <>
@@ -29,12 +34,7 @@ function NavBar() {
                     </>
                 
                 )}
-                {currentUser ? (
-                  <h3>{currentUser.firstName}</h3> 
-                  ) : (
-                    null
-                    )
-      }
+                
               </div>
             
            

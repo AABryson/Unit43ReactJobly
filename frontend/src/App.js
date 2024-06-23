@@ -1,4 +1,4 @@
-
+//#############################################beginning to write function for applying to job
 import {Routes, Route} from 'react-router-dom'
 import {useState, useEffect} from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -20,11 +20,23 @@ import './App.css'
 
 function App() {
   // const [loggedIn, setLoggedIn] = useState(false)
-  //###############################null?
+  //###############################null? or empty object??
   const [currentUser, setCurrentUser] = useState('')
-  const [token, setToken] = useState(null)
+  const [token, setToken] = useState(localStorage.getItem('user'));
+  const [applicationIds, setApplicationIds] = useState(new Set([]));
+  console.log('applicationIds on app.js', applicationIds)
   
-  // const [signedUp, setSignedUp] = useState(false)
+
+  
+  
+  // if(currentUser) {
+  //   setCurrentUser(prevState => ({
+  //     ...prevState,
+  //     isAdmin:true
+  //   }))
+  // }
+  
+  
 //   const [token, setToken] = useLocalStorage(TOKEN_KEY='jobly-token')
 // //sychronize state with browser's local storage; state persists even when page refreshed, etc.
 //   function useLocalStorage(key, defaultValue=null) {
@@ -45,10 +57,17 @@ function App() {
     async function getUserInfo() {
       if(token) {
         try {
-          let {username} = jwtDecode(token)
+          let {username, isAdmin} = jwtDecode(token)
+          console.log('jwtDecode', username, isAdmin)
           JoblyApi.token = token;
           let currentUser = await JoblyApi.getCurrentUser(username);
+          console.log('getCurrentUser', currentUser)
+          console.log('can I get currentUser.username', currentUser.username)
           setCurrentUser(currentUser);
+          console.log('setCurrentUser(currentUser)', currentUser.user)
+          //currentUser.isAdmin = true);
+          localStorage.setItem('user', JoblyApi.token)
+          console.log(localStorage.getItem('user'))
          ;
 
       } catch (err) {
@@ -60,10 +79,11 @@ function App() {
     } getUserInfo()
   }, [token])
 
+  
 
   return (
     <>
-    <ContextObject.Provider value={{token, setToken, currentUser, setCurrentUser}}>
+    <ContextObject.Provider value={{token, setToken, currentUser, setCurrentUser, applicationIds, setApplicationIds}}>
     <NavBar />
     {/* <CurrentUser /> */}
     <Routes>
@@ -80,7 +100,7 @@ function App() {
       <Route path='/login' element={<Login />} />
       {/**Signup form */}
       <Route path='/signup' element={<Signup />} />
-      {/**Edit profile page */}
+     
       <Route path='/profile'  element={<Profile />}/>
       <Route path='/logout' element={<Logout />}/>
     

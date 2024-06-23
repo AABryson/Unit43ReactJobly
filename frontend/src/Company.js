@@ -1,4 +1,5 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useContext} from 'react'
+import ContextObject from './ContextObject'
 import JoblyApi from './api'
 import { useParams } from 'react-router-dom'
 
@@ -8,6 +9,7 @@ function Company () {
         // let compHandle = params.handle
         // console.log(compHandle)
     let {handle} = useParams()
+    let {currentUser} = useContext(ContextObject)
 
     const [company, setCompany] = useState({})
 
@@ -61,6 +63,7 @@ function Company () {
 
     return (
         <>
+         {currentUser ? (
         <div className='card mb-3'>
         <div className='card-body'>
         <h1 className='card-title'>{company.name}</h1>
@@ -95,7 +98,9 @@ function Company () {
                 </div>
                 </div>
            
-            
+           ) : (
+            <h1>You must be logged in to see this page.</h1>
+        )}
         </>
     )
 }

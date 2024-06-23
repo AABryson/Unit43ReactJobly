@@ -1,4 +1,5 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useContext} from 'react'
+import ContextObject from './ContextObject'
 import CompanyCard from './CompanyCard'
 import SearchForm from './SearchForm'
 
@@ -8,7 +9,7 @@ function Companies () {
     //#Import Companies info.  Should be an array of objects.  Each object has following keys: handle, name, num_employees, description, log_url
 
     
-
+    let {currentUser} = useContext(ContextObject)
     const [companies, setCompanies] = useState([])
   
     useEffect(() => {
@@ -59,7 +60,10 @@ function Companies () {
 
     
     return ( 
+        <div>
+        {currentUser ? (
         <>
+        
         <h1>Companies</h1>
         <SearchForm search={searchCompanies} />
             {/* {companies.map(c => (
@@ -78,6 +82,10 @@ function Companies () {
         
            
         </>
+        ) : (
+            <h1>You must be logged in to see this page.</h1>
+        )}
+        </div>
     )
 }
 export default Companies

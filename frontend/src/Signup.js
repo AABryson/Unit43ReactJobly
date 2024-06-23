@@ -1,12 +1,17 @@
-import React, {useState} from 'react'
+import React, {useState, useContext} from 'react'
 import JoblyApi from './api'
+import ContextObject from './ContextObject'
+
 
 function Signup () {
 //register new user; username, password, firstName, lastName, email, isAdmin
 //#################################can't use first_name or last_name
 
     const [signupData, setSignupData] = useState({username:'', password:'', firstName:'', lastName:'', email:''})
+    //instance is not allowed to have addition property isAdmin
+    //({username:'', password:'', firstName:'', lastName:'', email:'', isAdmin:true})
 
+    const {setToken} = useContext(ContextObject)
 
     function handleChange (e) {
         const {name, value} = e.target
@@ -21,8 +26,11 @@ function Signup () {
         e.preventDefault()
         //execute function that sends post request to api
         let token = await JoblyApi.signUp(signupData)
+        console.log(signupData)
+        setToken(token)
         setSignupData({username:'', password:'', firstName:'', lastName:'', email:''})
         console.log(token)
+
         return token
         //example of token returned:
         {/**eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImthY3kiLCJpc0FkbWluIjpmYWxzZSwiaWF0IjoxNzE4ODQyODA0fQ.H6fZ_m5uSz_HG9FADChEEwDY61Yvz1 */}

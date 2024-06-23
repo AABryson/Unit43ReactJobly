@@ -75,9 +75,31 @@ class JoblyApi {
 
   static async getCurrentUser(username){
     let response = await this.request(`users/${username}`)
+    // return response.user
+    console.log('reponse to getCurrentUser',response.user)
     return response.user
   }
+
+  static async updateUserInfo(data) {
+    let response = await this.request(`users/${data.username}`, data, 'patch')
+    console.log('response to updateUserInfo function', response)
+    return response
+  }
+// sends request to /:username/jobs/:id, has 'ensureCorrectUserOrAdmin middleware, return json - '{applied: jobId}
+// has embedded function applyToJob(req.params.username, JobId); checks if there is job with that id, checks if there is user with that username, then inserts into applicatiions job_id and username
+// thus pass in username and job id via parameters; 
+  static async applyForJob(username, id) {
+    let response = await this.request(`users/${username}/jobs/${id}`, {}, 'post')
+    console.log('response from api to apply for job', response)
+    return response
+    }
 }
+  
+
+  
+  
+
+
 
 // for now, put token ("testuser" / "password" on class)
 JoblyApi.token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZ" +

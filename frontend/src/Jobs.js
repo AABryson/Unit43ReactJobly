@@ -1,10 +1,14 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useContext} from 'react'
 import JobCard from './JobCard'
+import ContextObject from './ContextObject'
 
 import JoblyApi from './api'
 
 function Jobs () {
+    let {currentUser, applicationIds, setApplicationIds} = useContext(ContextObject)
     const [jobs, setJobs] = useState([]);
+    const [applied, setApplied] = useState()
+    
     useEffect(() => {
         async function getJobs(){
             try {
@@ -25,6 +29,26 @@ function Jobs () {
         getJobs()
 
     }, [])
+    let username = currentUser.username
+    useEffect(function updateAppliedStatus() {
+
+    })
+    
+
+
+    async function sendApp(username, id) {
+        if(applicationIds.has(id)){
+            return console.log('job has already been applied to')
+        }
+        let result = await JoblyApi.applyForJob(username, id) 
+        console.log('result from api call with sendApp', result)
+        setApplicationIds(new Set([...applicationIds, id]))
+        
+  
+
+        }
+
+    
 
     // useEffect(() => {
     //     async function getJobs() {
@@ -35,15 +59,32 @@ function Jobs () {
     //     getJobs()
     // }, [])
 
+
+    // {applicationIds.has(job.id) ? 'Applied' : 'Apply'}
     return (
+        <div>
+        {currentUser ? (
         <>
         <h1>Jobs</h1>
         {jobs.map(job => (
+            <>
             <JobCard id={job.id} title={job.title} equity={job.equity} salary={job.salary}/>
-            
-        ))
+            {/* <button onClick={() => sendApp(username, job.id)}>Apply</button> */}
+            <button 
+            onClick={() => sendApp(username, job.id)}
+            disabled={applied}>
+            {applied ? "Applied" : "Apply"}
+            </button>
+
+            </>
+             ))
         }
+
         </>
+         ) : (
+            <h1>You must be logged in to see this page.</h1>
+        )}
+        </div>
 
     )
 }
