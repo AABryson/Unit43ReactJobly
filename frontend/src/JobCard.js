@@ -11,9 +11,34 @@ function JobCard ({id, title, equity, salary}) {
     // const [applied, setApplied] = useState([])
     // console.log('print applied state at top', applied)
 
-    
+    const [applied, setApplied] = useState()
    
-    const {currentUser} = useContext(ContextObject)
+    const {currentUser, applicationIds, setApplicationIds} = useContext(ContextObject)
+
+    let username = currentUser.username
+    useEffect(function updateAppliedStatus() {
+        if(applicationIds.has(id)){
+            return console.log('you have already applied for that job'
+            )
+        }
+    }, [id, applicationIds.length])
+        
+
+
+
+    async function sendApp(username, id) {
+        if(applicationIds.has(id)){
+            return console.log('job has already been applied to')
+        }
+        let result = await JoblyApi.applyForJob(username, id) 
+        console.log('result from api call with sendApp', result)
+        setApplicationIds(new Set([...applicationIds, id]))
+        setApplied(true)
+        
+  
+
+        }
+
     
     //  console.log('applicationsIds state in jobcard', applicationIds)
 //###########################??why not pass to sendApp?
@@ -48,6 +73,11 @@ function JobCard ({id, title, equity, salary}) {
 
 
             </li>
+            <button 
+            onClick={() => sendApp(username, id)}
+            disabled={applied}>
+            {applied ? "Applied" : "Apply"}
+            </button>
         
             
         </div>

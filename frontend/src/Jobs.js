@@ -5,9 +5,11 @@ import ContextObject from './ContextObject'
 import JoblyApi from './api'
 
 function Jobs () {
-    let {currentUser, applicationIds, setApplicationIds} = useContext(ContextObject)
+    // let {currentUser, applicationIds, setApplicationIds} = useContext(ContextObject)
+
+let {currentUser} = useContext(ContextObject)
     const [jobs, setJobs] = useState([]);
-    const [applied, setApplied] = useState()
+    // const [applied, setApplied] = useState()
     
     useEffect(() => {
         async function getJobs(){
@@ -30,23 +32,23 @@ function Jobs () {
 
     }, [])
     let username = currentUser.username
-    useEffect(function updateAppliedStatus() {
+    // useEffect(function updateAppliedStatus() {
 
-    })
+    // })
     
 
 
-    async function sendApp(username, id) {
-        if(applicationIds.has(id)){
-            return console.log('job has already been applied to')
-        }
-        let result = await JoblyApi.applyForJob(username, id) 
-        console.log('result from api call with sendApp', result)
-        setApplicationIds(new Set([...applicationIds, id]))
+    // async function sendApp(username, id) {
+    //     if(applicationIds.has(id)){
+    //         return console.log('job has already been applied to')
+    //     }
+    //     let result = await JoblyApi.applyForJob(username, id) 
+    //     console.log('result from api call with sendApp', result)
+    //     setApplicationIds(new Set([...applicationIds, id]))
         
   
 
-        }
+    //     }
 
     
 
@@ -60,7 +62,7 @@ function Jobs () {
     // }, [])
 
 
-    // {applicationIds.has(job.id) ? 'Applied' : 'Apply'}
+    
     return (
         <div>
         {currentUser ? (
@@ -69,16 +71,10 @@ function Jobs () {
         {jobs.map(job => (
             <>
             <JobCard id={job.id} title={job.title} equity={job.equity} salary={job.salary}/>
-            {/* <button onClick={() => sendApp(username, job.id)}>Apply</button> */}
-            <button 
-            onClick={() => sendApp(username, job.id)}
-            disabled={applied}>
-            {applied ? "Applied" : "Apply"}
-            </button>
-
+        
             </>
-             ))
-        }
+             ))}
+        
 
         </>
          ) : (
@@ -88,6 +84,7 @@ function Jobs () {
 
     )
 }
+
 export default Jobs
 
 
