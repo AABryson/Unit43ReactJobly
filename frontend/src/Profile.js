@@ -12,10 +12,20 @@ function Profile () {
     async function handleSubmit(e) {
         e.preventDefault()
         console.log('handle submit before called updateUserInfo', currentUser.username)
-        let updatedUser = await JoblyApi.updateUserInfo(currentUser.username)
+
+        let firstName = currentUser.firstName
+        let lastName = currentUser.lastName
+        let email = currentUser.email
+        let password = currentUser.password
+        let userToUpdate = {firstName, lastName, email, password}
+        console.log('new userToUpdate before sending request', userToUpdate)
+        // setChangeProfile(true)
+        if(changeProfile){
+        let updatedUser = await JoblyApi.updateUserInfo(currentUser.username, userToUpdate)
+        // (currentUser.username)
         console.log('after clicking submit button', updatedUser)
         setCurrentUser(updatedUser)
-        setChangeProfile(false)
+        setChangeProfile(false)}
 
     }
 
@@ -36,7 +46,7 @@ function Profile () {
         <>
         {!changeProfile ? (
         <div className='profile'>
-            <h1>{currentUser.firstName}'s page</h1>
+            <h1>{currentUser.userName}'s page</h1>
             {/* <h2>Username: {currentUser.username}</h2> */}
             <h2>First Name: {currentUser.firstName}</h2>
             <h2>Last Name: {currentUser.lastName}</h2>
@@ -50,9 +60,9 @@ function Profile () {
             {/**Don't need to reset current user.  I just forgot the name attributet. */}
             {/* {setCurrentUser('')} */}
             <form onSubmit={handleSubmit}>
-            <label htmlFor='username'>Username</label>
+            {/* <label htmlFor='username'>Username</label>
             <input style={{margin:'10px'}} type='text' id='username' name='username' value={currentUser.username} onChange={handleChange} />
-            <br></br>
+            <br></br> */}
 
             <label htmlFor='firstName'>First Name</label>
             <input style={{margin:'10px'}} type='text' id='firstName' name='firstName' value={currentUser.firstName} onChange={handleChange} />

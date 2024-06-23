@@ -80,8 +80,8 @@ class JoblyApi {
     return response.user
   }
 
-  static async updateUserInfo(data) {
-    let response = await this.request(`users/${data.username}`, data, 'patch')
+  static async updateUserInfo(username, data) {
+    let response = await this.request(`users/${username}`, data, 'patch')
     console.log('response to updateUserInfo function', response)
     return response
   }

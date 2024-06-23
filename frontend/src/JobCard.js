@@ -16,12 +16,15 @@ function JobCard ({id, title, equity, salary}) {
     const {currentUser, applicationIds, setApplicationIds} = useContext(ContextObject)
 
     let username = currentUser.username
+
     useEffect(function updateAppliedStatus() {
         if(applicationIds.has(id)){
             return console.log('you have already applied for that job'
             )
         }
     }, [id, applicationIds.length])
+
+    // [id, applicationIds.length])
         
 
 
